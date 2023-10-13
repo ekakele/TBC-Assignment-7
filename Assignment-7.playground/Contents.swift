@@ -22,9 +22,9 @@ protocol Superhero {
     var isEvil: Bool { get }
     var superPowers: [String: Int] { get } // Superpower = key: damage = value
     
-    mutating func performSuperPower (targetIs: SuperEnemy) -> Int
+    mutating func performSuperPower(targetIs: SuperEnemy) -> Int
     
-    func attack (target: SuperEnemy, remainingHitPoints: Int) -> Int
+    func attack(target: SuperEnemy, remainingHitPoints: Int) -> Int
 }
 
 //3. Superhero-ს extension-ი გავაკეთოთ სადაც შევქმნით method-ს რომელიც დაგვი-print-ავს ინფორმაციას სუპერ გმირზე და მის დარჩენილ superPower-ებზე.
@@ -58,6 +58,9 @@ struct SunkMan: Superhero {
     mutating func performSuperPower(targetIs: SuperEnemy) -> Int {
         var remainingHitPoints = targetIs.hitPoints
         for (name, damage) in superPowers {
+            if remainingHitPoints <= 0 {
+                break
+            }
             remainingHitPoints -= damage
             info()
             superPowers.removeValue(forKey: name)
@@ -130,9 +133,25 @@ class SuperheroSquad {
 
 //6.ამ ყველაფრის მერე მოვაწყოთ ერთი ბრძოლა. შევქმნათ method simulateShowdown. ეს method იღებს სუპერგმირების სქვადს და იღებს SuperEnemy-ს. სანამ ჩვენი super enemy არ მოკვდება, ან კიდევ სანამ ჩვენ სუპერგმირებს არ დაუმთავრდებათ სუპერ შესაძლებლობები გავმართოთ ბრძოლა. ჩვენმა სუპერ გმირებმა რანდომად შეასრულონ superPowers, ყოველი შესრულებული superPowers-ი იშლება ამ გმირის ლისტიდან. თუ გმირს დაუმთავრდა superPowers, მას აქვს ბოლო 1 ჩვეულებრივი attack-ის განხორციელება (ამ attack განხორიციელება მხოლოდ ერთხელ შეუძლია როცა superPowers უმთავრდება).
 
-let sunkMan = SunkMan(name: "Skunk-Man", alias: "Sunk", isEvil: false, superPowers: ["emits toxic airs": 30, "belches loudly": 10, "exhales fire": 40])
-let loveBomb = LoveBomb(name: "Love Bomb", alias: "Heartbreaker", isEvil: true, superPowers: ["breaks hearts with a touch": 20, "manipulates for personal gain": 15, "drains happiness makes depressed": 15])
-let lazyBeast = SuperEnemy(name: "Lazy Beast", hitPoints: 200)
+let sunkMan = SunkMan(
+    name: "Skunk-Man",
+    alias: "Sunk",
+    isEvil: false,
+    superPowers: [
+        "emits toxic airs": 30,
+        "belches loudly": 10,
+        "exhales fire": 40]
+)
+let loveBomb = LoveBomb(
+    name: "Love Bomb",
+    alias: "Heartbreaker",
+    isEvil: true,
+    superPowers: [
+        "breaks hearts with a touch": 20,
+        "manipulates for personal gain": 15,
+        "drains happiness makes depressed": 15]
+)
+let lazyBeast = SuperEnemy(name: "Lazy Beast", hitPoints: 200) 
 
 
 var mySquad = SuperheroSquad(superheroesArray: [])
